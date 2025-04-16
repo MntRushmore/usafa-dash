@@ -31,7 +31,15 @@ const App = () => {
       [name]: value,
     }));
   };
-
+  };
+  
+  const handleGoalToggle = (e) => {
+    const { name, checked } = e.target;
+    setGoals((prevGoals) => ({
+      ...prevGoals,
+      [name]: checked,
+    }));
+  };
   const quotes = [
     "Integrity first, service before self, excellence in all we do.",
     "Push yourself, because no one else is going to do it for you.",
