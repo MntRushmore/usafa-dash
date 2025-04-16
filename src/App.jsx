@@ -31,7 +31,6 @@ const App = () => {
       [name]: value,
     }));
   };
-  };
   
   const handleGoalToggle = (e) => {
     const { name, checked } = e.target;
