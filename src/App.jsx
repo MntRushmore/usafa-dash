@@ -24,6 +24,14 @@ const App = () => {
   const [leaderboard, setLeaderboard] = useState([]); 
   const [notifications, setNotifications] = useState([]);
 
+  const handleGradeChange = (e) => {
+    const { name, value } = e.target;
+    setGrades((prevGrades) => ({
+      ...prevGrades,
+      [name]: value,
+    }));
+  };
+
   const quotes = [
     "Integrity first, service before self, excellence in all we do.",
     "Push yourself, because no one else is going to do it for you.",
