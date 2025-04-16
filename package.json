@@ -1,0 +1,24 @@
+{
+    "name": "usafa-dash",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview"
+    },
+    "dependencies": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "firebase": "^9.6.1"
+    },
+    "devDependencies": {
+      "vite": "^2.9.0",
+      "tailwindcss": "^3.0.24",
+      "postcss": "^8.4.12",
+      "autoprefixer": "^10.4.2"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    }
+  }
