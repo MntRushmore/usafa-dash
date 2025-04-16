@@ -328,6 +328,3 @@ export default function App() {
     </div>
   );
 }
-
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-serviceWorkerRegistration.register();
