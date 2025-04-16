@@ -14,15 +14,15 @@ const App = () => {
   const [milestones, setMilestones] = useState('');
   const [visionBoard, setVisionBoard] = useState('');
   const [scheduler, setScheduler] = useState([]);
-  const [xp, setXp] = useState(0); // XP System
-  const [level, setLevel] = useState(1); // Level Tracking
-  const [completedTasks, setCompletedTasks] = useState(0); // Track completed tasks for XP
-  const [pomodoroTimer, setPomodoroTimer] = useState(false); // Pomodoro Timer
-  const [visionBoardImage, setVisionBoardImage] = useState(null); // Vision board image input
-  const [milestonesCompleted, setMilestonesCompleted] = useState(0); // Track weekly milestones
-  const [learningResources, setLearningResources] = useState([]); // List of recommended resources
-  const [leaderboard, setLeaderboard] = useState([]); // Track XP for leaderboard
-  const [notifications, setNotifications] = useState([]); // Track user notifications
+  const [xp, setXp] = useState(0); 
+  const [level, setLevel] = useState(1); 
+  const [completedTasks, setCompletedTasks] = useState(0); 
+  const [pomodoroTimer, setPomodoroTimer] = useState(false); 
+  const [visionBoardImage, setVisionBoardImage] = useState(null); 
+  const [milestonesCompleted, setMilestonesCompleted] = useState(0); 
+  const [learningResources, setLearningResources] = useState([]); 
+  const [leaderboard, setLeaderboard] = useState([]); 
+  const [notifications, setNotifications] = useState([]);
 
   const quotes = [
     "Integrity first, service before self, excellence in all we do.",
@@ -33,7 +33,6 @@ const App = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      // Fetch data and set state here...
     };
     loadData();
     setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
@@ -88,10 +87,9 @@ const App = () => {
 
   // Function to calculate XP based on completed tasks
   const calculateXP = (completedTasks) => {
-    return completedTasks * 10; // Example: 10 XP per task completed
+    return completedTasks * 10; // 10 XP per task completed
   };
 
-  // Function to handle Pomodoro timer
   const startPomodoro = () => {
     setPomodoroTimer(true);
     setTimeout(() => {
@@ -100,10 +98,9 @@ const App = () => {
     }, 25 * 60 * 1000); // 25-minute timer
   };
 
-  // Function to handle weekly milestone completion
   const completeMilestone = () => {
     setMilestonesCompleted(milestonesCompleted + 1);
-    setXp(xp + 50); // Example: 50 XP for completing a milestone
+    setXp(xp + 50); 
   };
 
   return (
@@ -152,7 +149,7 @@ const App = () => {
           <p className="text-lg font-medium text-blue-700 mt-4">Calculated GPA: <span className="font-extrabold">{calculateGPA()}</span></p>
         </div>
 
-        {/* Weekly Milestone Section */}
+        {/* Weekly Milestones */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">🧭 Weekly Milestones</h2>
           <button 
@@ -260,7 +257,7 @@ const App = () => {
           </ul>
         </div>
 
-        {/* Vision Board Section */}
+        {/* Vision Board */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">🌌 Vision Board</h2>
           <textarea
@@ -292,13 +289,13 @@ const App = () => {
           </ul>
         </div>
 
-        {/* Task Completion and XP */}
+        {/* XP */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">🎯 Task Tracker</h2>
           <button
             onClick={() => {
               setCompletedTasks(completedTasks + 1);
-              setXp(xp + 10); // Earn 10 XP for completing a task
+              setXp(xp + 10);
             }}
             className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-all"
           >
