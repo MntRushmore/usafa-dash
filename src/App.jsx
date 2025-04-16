@@ -1,11 +1,127 @@
-return (
+import React, { useState, useEffect } from 'react';
+import { Pie } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
+
+const App = () => {
+  const [grades, setGrades] = useState({ english: '', bio: '', history: '', spanish: '', algebra: '' });
+  const [goals, setGoals] = useState({ fitness: false, leadership: false, volunteering: false, academics: false });
+  const [quote, setQuote] = useState('');
+  const [dailyLog, setDailyLog] = useState('');
+  const [weeklyFocus, setWeeklyFocus] = useState('');
+  const [logStreak, setLogStreak] = useState(0);
+  const [lastLogDate, setLastLogDate] = useState(null);
+  const [badges, setBadges] = useState([]);
+  const [milestones, setMilestones] = useState('');
+  const [visionBoard, setVisionBoard] = useState('');
+  const [scheduler, setScheduler] = useState([]);
+  const [xp, setXp] = useState(0); // XP System
+  const [level, setLevel] = useState(1); // Level Tracking
+  const [completedTasks, setCompletedTasks] = useState(0); // Track completed tasks for XP
+  const [pomodoroTimer, setPomodoroTimer] = useState(false); // Pomodoro Timer
+  const [visionBoardImage, setVisionBoardImage] = useState(null); // Vision board image input
+  const [milestonesCompleted, setMilestonesCompleted] = useState(0); // Track weekly milestones
+  const [learningResources, setLearningResources] = useState([]); // List of recommended resources
+  const [leaderboard, setLeaderboard] = useState([]); // Track XP for leaderboard
+  const [notifications, setNotifications] = useState([]); // Track user notifications
+
+  const quotes = [
+    "Integrity first, service before self, excellence in all we do.",
+    "Push yourself, because no one else is going to do it for you.",
+    "Dream big, train hard, fly high.",
+    "Discipline is the bridge between goals and accomplishment.",
+  ];
+
+  useEffect(() => {
+    const loadData = async () => {
+      // Fetch data and set state here...
+    };
+    loadData();
+    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+  }, []);
+
+  const getCountdown = () => {
+    const deadline = new Date('2026-12-31');
+    const now = new Date();
+    const diff = deadline - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const months = Math.floor(days / 30);
+    return `${months} months, ${days % 30} days remaining`;
+  };
+
+  const calculateGPA = () => {
+    const gradeToPoint = {
+      A: 4.0,
+      "A-": 3.7,
+      "B+": 3.3,
+      B: 3.0,
+      "B-": 2.7,
+      "C+": 2.3,
+      C: 2.0,
+      "C-": 1.7,
+      D: 1.0,
+      F: 0.0,
+    };
+
+    const points = Object.values(grades)
+      .map((grade) => gradeToPoint[grade.trim()] ?? null)
+      .filter((point) => point !== null);
+    return points.length ? (points.reduce((a, b) => a + b, 0) / points.length).toFixed(2) : 'N/A';
+  };
+
+  const gpaChartData = {
+    labels: ['A', 'B', 'C', 'D', 'F'],
+    datasets: [
+      {
+        label: 'GPA Breakdown',
+        data: Object.values(grades).map((grade) => {
+          switch (grade) {
+            case 'A': return 1;
+            case 'B': return 1;
+            case 'C': return 1;
+            default: return 0;
+          }
+        }),
+        backgroundColor: ['#4CAF50', '#FFC107', '#FF5722', '#D32F2F'],
+      },
+    ],
+  };
+
+  // Function to calculate XP based on completed tasks
+  const calculateXP = (completedTasks) => {
+    return completedTasks * 10; // Example: 10 XP per task completed
+  };
+
+  // Function to handle Pomodoro timer
+  const startPomodoro = () => {
+    setPomodoroTimer(true);
+    setTimeout(() => {
+      alert('Pomodoro session completed! Take a break.');
+      setPomodoroTimer(false);
+    }, 25 * 60 * 1000); // 25-minute timer
+  };
+
+  // Function to handle weekly milestone completion
+  const completeMilestone = () => {
+    setMilestonesCompleted(milestonesCompleted + 1);
+    setXp(xp + 50); // Example: 50 XP for completing a milestone
+  };
+
+  return (
   <div className="min-h-screen bg-gradient-to-br from-blue-600 to-indigo-700 p-10 flex justify-center items-center">
-    <div className="w-full max-w-3xl bg-white shadow-xl rounded-3xl p-10 transform transition-all duration-500 hover:scale-105">
+    <div className="w-full max-w-3xl bg-white shadow-2xl rounded-3xl p-10 transform transition-all duration-500 hover:scale-105">
       <div className="text-center mb-8">
         <h1 className="text-5xl font-extrabold text-blue-900 mb-4 tracking-tight">🇺🇸 USAFA Dashboard</h1>
-        <p className="text-lg text-gray-400 italic mb-6">"{quote}"</p>
+        <p className="text-lg text-gray-400 italic mb-6">"{quote || "Stay focused and work hard!"}"</p>
         <p className="text-xl font-semibold text-blue-800">🎯 Application Countdown: {getCountdown()}</p>
         <p className="text-xl font-semibold text-blue-600">🔥 Log Streak: {logStreak} days</p>
+
+        {/* Pomodoro Timer Button */}
+        <button 
+          onClick={startPomodoro} 
+          className="bg-blue-500 text-white py-2 px-4 rounded-full mt-4 hover:bg-blue-600 transition-all"
+        >
+          {pomodoroTimer ? "Pomodoro in Progress..." : "Start Pomodoro Timer"}
+        </button>
       </div>
 
       <hr className="my-8 border-t border-blue-300" />
@@ -34,6 +150,18 @@ return (
             </div>
           ))}
           <p className="text-lg font-medium text-blue-700 mt-4">Calculated GPA: <span className="font-extrabold">{calculateGPA()}</span></p>
+        </div>
+
+        {/* Weekly Milestone Section */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">🧭 Weekly Milestones</h2>
+          <button 
+            onClick={completeMilestone} 
+            className="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 transition-all"
+          >
+            Complete Milestone (+50 XP)
+          </button>
+          <p className="text-lg text-blue-600">Milestones Completed: {milestonesCompleted}</p>
         </div>
 
         <hr className="my-8 border-t border-blue-300" />
@@ -108,29 +236,81 @@ return (
         <hr className="my-8 border-t border-blue-300" />
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-blue-700 mb-4">🧭 Weekly Milestones</h2>
-          <textarea
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-md focus:ring-2 focus:ring-blue-500"
-            rows={3}
-            value={milestones}
-            onChange={handleMilestonesChange}
-            placeholder="List your weekly milestones..."
-          />
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">📚 Learning Resources</h2>
+          <ul>
+            {learningResources.length > 0 ? learningResources.map((resource, i) => (
+              <li key={i} className="text-blue-500">
+                <a href={resource.link} target="_blank" rel="noopener noreferrer">{resource.title}</a>
+              </li>
+            )) : <p>No learning resources available yet.</p>}
+          </ul>
         </div>
 
         <hr className="my-8 border-t border-blue-300" />
 
+        {/* Leaderboard Section */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">🏆 Leaderboard</h2>
+          <ul>
+            {leaderboard.length > 0 ? leaderboard.map((user, i) => (
+              <li key={i} className="text-blue-600">
+                {user.name}: {user.xp} XP
+              </li>
+            )) : <p>No leaderboard data available yet.</p>}
+          </ul>
+        </div>
+
+        {/* Vision Board Section */}
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-blue-700 mb-4">🌌 Vision Board</h2>
           <textarea
             className="w-full border border-gray-300 rounded-xl px-4 py-3 shadow-md focus:ring-2 focus:ring-blue-500"
             rows={3}
             value={visionBoard}
-            onChange={handleVisionChange}
+            onChange={(e) => setVisionBoard(e.target.value)}
             placeholder="Your dreams, goals, inspiration..."
           />
+          <input
+            type="file"
+            onChange={(e) => setVisionBoardImage(URL.createObjectURL(e.target.files[0]))}
+            className="mt-4"
+          />
+          {visionBoardImage && <img src={visionBoardImage} alt="Vision Board" className="w-32 h-32 mt-4" />}
+        </div>
+
+        <hr className="my-8 border-t border-blue-300" />
+
+        {/* Notifications */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">🔔 Notifications</h2>
+          <ul>
+            {notifications.length > 0 ? notifications.map((notification, i) => (
+              <li key={i} className="text-blue-600">
+                {notification}
+              </li>
+            )) : <p>No new notifications.</p>}
+          </ul>
+        </div>
+
+        {/* Task Completion and XP */}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4">🎯 Task Tracker</h2>
+          <button
+            onClick={() => {
+              setCompletedTasks(completedTasks + 1);
+              setXp(xp + 10); // Earn 10 XP for completing a task
+            }}
+            className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition-all"
+          >
+            Complete Task (+10 XP)
+          </button>
+          <p className="text-lg text-blue-600">Completed Tasks: {completedTasks}</p>
+          <p className="text-lg text-blue-600">Total XP: {xp}</p>
         </div>
       </form>
     </div>
   </div>
 );
+};
+
+export default App;
