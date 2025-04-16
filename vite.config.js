@@ -1,7 +1,11 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  optimizeDeps: {
-    include: ['firebase', 'react', 'react-dom']
-  }
+  root: './',  // Make sure the root is correct
+  build: {
+    outDir: 'dist',  // This is the output directory for the build
+  },
+  server: {
+    port: 3000,  // Ensure the correct port if needed
+  },
 });
