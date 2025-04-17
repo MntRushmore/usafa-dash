@@ -338,6 +338,6 @@ const App = () => {
       <Route path="/timeline" element={<Timeline />} />
     </Routes>
   </Router>
-);
-
+  );
+};
 export default App;
